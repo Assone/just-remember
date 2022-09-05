@@ -3,21 +3,27 @@ import vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import Icons from 'unplugin-icons/vite';
+import IconsResolver from 'unplugin-icons/resolver';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
+    Icons({
+      autoInstall: true,
+    }),
     AutoImport({
       dts: './src/types/auto-imports.d.ts',
       eslintrc: {
         enabled: true,
       },
       imports: ['vue', 'vue-router', 'pinia', '@vueuse/core'],
-      dirs: ['./src/hooks/**', './src/store'],
+      dirs: ['./src/hooks/**', './src/store', './src/utils'],
     }),
     Components({
+      resolvers: [IconsResolver()],
       dirs: ['src/components/**'],
       dts: './src/types/auto-components.d.ts',
       types: [

@@ -27,13 +27,16 @@ module.exports = {
     'import/resolver': {
       alias: {
         map: [['@', './src']],
-        extensions: ['.ts', '.vue'],
+        extensions: ['.ts', '.tsx', '.vue'],
       },
     },
   },
   rules: {
     // file extensions
-    'import/extensions': ['error', { js: 'never', ts: 'never', vue: 'always' }],
+    'import/extensions': [
+      'error',
+      { js: 'never', ts: 'never', tsx: 'never', vue: 'always' },
+    ],
     'vue/multi-word-component-names': 'off',
   },
   overrides: [

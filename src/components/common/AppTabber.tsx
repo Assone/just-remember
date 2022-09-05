@@ -1,40 +1,13 @@
-import type { InjectionKey } from 'vue';
-import { defineEmits } from 'vue';
-
-// {
-/* <script lang="ts" setup>
-import {
-  type AppTabbarProps,
-  type AppTabbarEvent,
-  AppTabbarProvideKey,
-} from './useTabbar';
-
-const props = withDefaults(defineProps<AppTabbarProps>(), {
-  fixed: true,
-  border: true,
-});
-const emit = defineEmits<AppTabbarEvent>();
-const { linkChildren } = useChildren(AppTabbarProvideKey);
-
-const setActive = (active: number | string) => {
-  console.log('setActive', active);
-};
-
-linkChildren({ props, setActive });
-</script>
-
-<template>
-  <div
-    :class="[fixed ? 'fixed bottom-0' : '', border ? 'border' : '', 'w-full']"
-  >
-    <slot />
-  </div>
-</template> */
-// }
+import type { Interceptor } from '@/utils/interceptor';
+import type { InjectionKey, PropType } from 'vue';
 
 export interface AppTabbarProps {
   fixed?: boolean;
   border?: boolean;
+  modelValue?: string | number;
+  route?: boolean;
+  activeColor?: string;
+  inactiveColor?: string;
 }
 
 export interface AppTabbarEvent {
@@ -61,15 +34,30 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    modelValue: {
+      type: [String, Number],
+      default: 0,
+    },
+    route: Boolean,
+    activeColor: String,
+    inactiveColor: String,
+    beforeChange: Function as PropType<Interceptor>,
   },
   emits: ['change', 'update:modelValue'],
-  setup(props, ctx) {
+  setup(props, { emit }) {
     const slot = useSlots();
     const { linkChildren } = useChildren(AppTabbarProvideKey);
     const { border, fixed } = toRefs(props);
 
-    const setActive = (active: number | string) => {
-      console.log('setActive', active);
+    const setActive = (active: number | string, afterChange: () => void) => {
+      callInterceptor(props.beforeChange, {
+        args: [active],
+        done() {
+          emit('update:modelValue', active);
+          emit('change', active);
+          afterChange();
+        },
+      });
     };
 
     linkChildren({ props, setActive });
