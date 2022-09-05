@@ -19,6 +19,16 @@ const router = createRouter({
       name: 'Wallets',
       component: () => import('@/views/Wallets.vue'),
     },
+    {
+      path: '/settings',
+      name: 'Settings',
+      component: () => import('@/views/Settings.vue'),
+    },
+    {
+      path: '/trends',
+      name: 'Trends',
+      component: () => import('@/views/Trends.vue'),
+    },
   ],
 });
 

@@ -23,6 +23,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const slots = useSlots();
     const route = useRoute();
+    const router = useRouter();
     const { name } = toRefs(props);
     const { index, parent } = useParent(AppTabbarProvideKey);
 
@@ -50,8 +51,11 @@ export default defineComponent({
 
     const onClick = (event: MouseEvent) => {
       if (!active.value) {
-        // ???
-        parent.setActive(props.name ?? index.value, noop);
+        parent.setActive(props.name ?? index.value, () => {
+          if (props.to) {
+            router[props.replace ? 'replace' : 'push'](props.to);
+          }
+        });
       }
 
       emit('click', event);

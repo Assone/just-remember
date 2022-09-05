@@ -1,5 +1,5 @@
 import type { Interceptor } from '@/utils/interceptor';
-import type { InjectionKey, PropType } from 'vue';
+import type { Component, InjectionKey, PropType } from 'vue';
 
 export interface AppTabbarProps {
   fixed?: boolean;
@@ -45,7 +45,7 @@ export default defineComponent({
   },
   emits: ['change', 'update:modelValue'],
   setup(props, { emit }) {
-    const slot = useSlots();
+    const slots = useSlots();
     const { linkChildren } = useChildren(AppTabbarProvideKey);
     const { border, fixed } = toRefs(props);
 
@@ -62,6 +62,14 @@ export default defineComponent({
 
     linkChildren({ props, setActive });
 
+    const renderSlot = () => {
+      const children = slots?.default?.();
+
+      return children?.filter(
+        (vnode) => (vnode.type as Component)?.name === 'AppTabbarItem'
+      );
+    };
+
     return () => (
       <div
         role="tablist"
@@ -71,7 +79,7 @@ export default defineComponent({
           'flex w-full h-14',
         ]}
       >
-        {slot?.default?.()}
+        {renderSlot()}
       </div>
     );
   },
