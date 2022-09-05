@@ -1,8 +1,9 @@
 import type { PropType } from 'vue';
-import type { RouteLocationPathRaw, RouteLocationRaw } from 'vue-router';
+import type { RouteLocationRaw } from 'vue-router';
+import AppIcon from './AppIcon.vue';
 import { AppTabbarProvideKey } from './AppTabber';
 
-interface AppTabbarItemProps {
+export interface AppTabbarItemProps {
   name?: string | number;
 }
 
@@ -26,7 +27,7 @@ export default defineComponent({
     const { index, parent } = useParent(AppTabbarProvideKey);
 
     if (!parent) {
-      return;
+      return undefined;
     }
 
     const active = computed(() => {
@@ -49,25 +50,44 @@ export default defineComponent({
 
     const onClick = (event: MouseEvent) => {
       if (!active.value) {
-        parent.setActive(props.name ?? index.value, route);
+        // ???
+        parent.setActive(props.name ?? index.value, noop);
       }
 
       emit('click', event);
     };
 
-    // eslint-disable-next-line consistent-return
+    const renderIcon = () => {
+      if (slots.icon) {
+        return slots.icon({ active: active.value });
+      }
+
+      if (props.icon) {
+        return <AppIcon icon={props.icon} />;
+      }
+
+      return null;
+    };
+
     return () => {
       const { activeColor, inactiveColor } = parent.props;
       const color = active.value ? activeColor : inactiveColor;
 
       return (
         <div
+          class={[
+            'flex flex-1 flex-col justify-center items-center gap-1 text-xs leading-none cursor-pointer',
+            active.value ? 'text-red-400' : '',
+          ]}
           role="tab"
           aria-selected={active.value}
           tabindex={0}
           style={{ color }}
           onClick={onClick}
         >
+          <div class="relative inline-block text-2xl leading-[0]">
+            {renderIcon()}
+          </div>
           <div>{slots?.default?.({ active: active.value })}</div>
         </div>
       );

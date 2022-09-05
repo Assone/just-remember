@@ -61,7 +61,7 @@ export const useParent = <T>(key: InjectionKey<ParentProvide<T>>) => {
     const { link, unlink, internalChildren } = parent;
 
     link(instance);
-    onMounted(() => unlink(instance));
+    onUnmounted(() => unlink(instance));
 
     const index = computed(() => internalChildren.indexOf(instance));
 

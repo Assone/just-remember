@@ -64,10 +64,11 @@ export default defineComponent({
 
     return () => (
       <div
+        role="tablist"
         class={[
-          fixed.value ? 'fixed bottom-0' : '',
+          fixed.value ? 'fixed bottom-0 left-0' : '',
           border.value ? 'border' : '',
-          'w-full',
+          'flex w-full h-14',
         ]}
       >
         {slot?.default?.()}

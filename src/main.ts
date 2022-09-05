@@ -1,8 +1,8 @@
-import { createApp } from 'vue'
-import './style.css'
-import { createPinia } from "pinia";
-import App from './App.vue'
+import 'iconify-icon';
+import { createPinia } from 'pinia';
+import { createApp } from 'vue';
+import App from './App.vue';
 import router from './router';
+import './style.css';
 
-
-createApp(App).use(router).use(createPinia()).mount('#app')
+createApp(App).use(router).use(createPinia()).mount('#app');

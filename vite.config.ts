@@ -1,15 +1,22 @@
-import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import AutoImport from 'unplugin-auto-import/vite';
-import Components from 'unplugin-vue-components/vite';
 import vueJsx from '@vitejs/plugin-vue-jsx';
-import Icons from 'unplugin-icons/vite';
+import AutoImport from 'unplugin-auto-import/vite';
 import IconsResolver from 'unplugin-icons/resolver';
+import Icons from 'unplugin-icons/vite';
+import Components from 'unplugin-vue-components/vite';
+import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    vue(),
+    vue({
+      customElement: ['iconify-icon'],
+      template: {
+        compilerOptions: {
+          isCustomElement: (tag) => ['iconify-icon'].includes(tag),
+        },
+      },
+    }),
     vueJsx(),
     Icons({
       autoInstall: true,

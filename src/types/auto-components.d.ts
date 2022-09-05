@@ -7,13 +7,9 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    AppIcon: typeof import('./../components/common/AppIcon.vue')['default']
     AppTabbarItem: typeof import('./../components/common/AppTabbarItem.tsx')['default']
     AppTabber: typeof import('./../components/common/AppTabber.tsx')['default']
-    ICarbonAccessibility: typeof import('~icons/carbon/accessibility')['default']
-    IFluentEmoji: typeof import('~icons/fluent/emoji')['default']
-    'IFluentEmoji:1stPlaceMedalfluentEmoji': typeof import('~icons/fluent/emoji-1st-place-medalfluent-emoji')['default']
-    IFluentEmoji1stPlaceMedalfluentEmoji: typeof import('~icons/fluent/emoji1st-place-medalfluent-emoji')['default']
-    IMdiAccountBox: typeof import('~icons/mdi/account-box')['default']
     OrderList: typeof import('./../components/OrderList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

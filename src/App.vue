@@ -1,13 +1,16 @@
+<script lang="ts" setup>
+const tabActive = ref(0);
+</script>
+
 <template>
   <div class="min-h-screen">
     <div class="p-4">
       <RouterView />
     </div>
-    <AppTabber>
-      <AppTabbarItem>
-        <i-carbon-accessibility />
-        <i-mdi-account-box style="font-size: 2em; color: red" />
-      </AppTabbarItem>
+    <AppTabber v-model="tabActive">
+      <AppTabbarItem icon="fluent-emoji:houses"> 首页 </AppTabbarItem>
+      <AppTabbarItem icon="fluent-emoji:bar-chart"> 趋势 </AppTabbarItem>
+      <AppTabbarItem icon="fluent-emoji:gear"> 设置 </AppTabbarItem>
     </AppTabber>
   </div>
 </template>
