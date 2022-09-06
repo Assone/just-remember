@@ -1,8 +1,18 @@
 <script lang="ts" setup>
-import { RouterLink } from 'vue-router';
+const orderStore = useOrder();
+const { createOrder } = orderStore;
+const { orders } = storeToRefs(orderStore);
 
-const store = useOrder();
-const category = useCategory();
+const handleAddOrder = () => {
+  createOrder({
+    price: 0,
+    date: 0,
+    currencyId: 0,
+    walletId: 1,
+    categoryId: 1,
+    remark: '11',
+  });
+};
 </script>
 
 <template>
@@ -12,5 +22,6 @@ const category = useCategory();
       <div>收入</div>
     </div>
     <RouterLink to="/wallets">钱包</RouterLink>
+    <button @click="handleAddOrder">添加账单</button>
   </div>
 </template>

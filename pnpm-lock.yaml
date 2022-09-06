@@ -11,6 +11,7 @@ specifiers:
   '@vueuse/core': ^9.1.1
   '@vueuse/rxjs': ^9.1.1
   autoprefixer: ^10.4.8
+  date-fns: ^2.29.2
   dexie: ^3.2.2
   eslint: ^8.0.1
   eslint-config-airbnb-base: ^15.0.0
@@ -37,6 +38,7 @@ specifiers:
 dependencies:
   '@vueuse/core': 9.1.1_vue@3.2.38
   '@vueuse/rxjs': 9.1.1_rxjs@7.5.6+vue@3.2.38
+  date-fns: registry.npmjs.org/date-fns/2.29.2
   dexie: 3.2.2
   iconify-icon: registry.npmjs.org/iconify-icon/1.0.0-beta.3
   pinia: 2.0.21_pj7ch6rmow6odq73xb5hfvge3q
@@ -62,7 +64,7 @@ devDependencies:
   eslint-plugin-vue: 9.4.0_eslint@8.23.0
   postcss: 8.4.16
   prettier: 2.7.1
-  tailwindcss: 3.1.8
+  tailwindcss: 3.1.8_postcss@8.4.16
   typescript: 4.8.2
   unplugin-auto-import: 0.11.2_jfxn32i2eq37u3jpfk3zc3f4hy
   unplugin-icons: 0.14.9_vite@3.0.9
@@ -2304,7 +2306,7 @@ packages:
     peerDependencies:
       postcss: ^8.0.0
     dependencies:
-      postcss: registry.npmjs.org/postcss/8.4.16
+      postcss: 8.4.16
       postcss-value-parser: 4.2.0
       read-cache: 1.0.0
       resolve: 1.22.1
@@ -2317,7 +2319,7 @@ packages:
       postcss: ^8.3.3
     dependencies:
       camelcase-css: 2.0.1
-      postcss: registry.npmjs.org/postcss/8.4.16
+      postcss: 8.4.16
     dev: true
 
   /postcss-load-config/3.1.4_postcss@8.4.16:
@@ -2333,7 +2335,7 @@ packages:
         optional: true
     dependencies:
       lilconfig: 2.0.6
-      postcss: registry.npmjs.org/postcss/8.4.16
+      postcss: 8.4.16
       yaml: 1.10.2
     dev: true
 
@@ -2343,7 +2345,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.14
     dependencies:
-      postcss: registry.npmjs.org/postcss/8.4.16
+      postcss: 8.4.16
       postcss-selector-parser: 6.0.10
     dev: true
 
@@ -2603,10 +2605,12 @@ packages:
     resolution: {integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==}
     dev: true
 
-  /tailwindcss/3.1.8:
+  /tailwindcss/3.1.8_postcss@8.4.16:
     resolution: {integrity: sha512-YSneUCZSFDYMwk+TGq8qYFdCA3yfBRdBlS7txSq0LUmzyeqRe3a8fBQzbz9M3WS/iFT4BNf/nmw9mEzrnSaC0g==}
     engines: {node: '>=12.13.0'}
     hasBin: true
+    peerDependencies:
+      postcss: ^8.0.9
     dependencies:
       arg: 5.0.2
       chokidar: 3.5.3
@@ -2621,7 +2625,7 @@ packages:
       normalize-path: 3.0.0
       object-hash: 3.0.0
       picocolors: 1.0.0
-      postcss: registry.npmjs.org/postcss/8.4.16
+      postcss: 8.4.16
       postcss-import: 14.1.0_postcss@8.4.16
       postcss-js: 4.0.0_postcss@8.4.16
       postcss-load-config: 3.1.4_postcss@8.4.16
@@ -3122,6 +3126,13 @@ packages:
     resolution: {integrity: sha512-dTyhTIRmGXBjxJE+skC8tTWCGLCVc4wQgRRLt8+O9p5ewBAjoBwtCAkLPrtToSr1xltoe3st21Pv953aOZ7alg==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/@vue/shared/-/shared-3.2.38.tgz}
     name: '@vue/shared'
     version: 3.2.38
+
+  registry.npmjs.org/date-fns/2.29.2:
+    resolution: {integrity: sha512-0VNbwmWJDS/G3ySwFSJA3ayhbURMTJLtwM2DTxf9CWondCnh6DTNlO9JgRSq6ibf4eD0lfMJNBxUdEAHHix+bA==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/date-fns/-/date-fns-2.29.2.tgz}
+    name: date-fns
+    version: 2.29.2
+    engines: {node: '>=0.11'}
+    dev: false
 
   registry.npmjs.org/esbuild-android-64/0.14.54:
     resolution: {integrity: sha512-Tz2++Aqqz0rJ7kYBfz+iqyE3QMycD4vk7LBRyWaAVFgFtQ/O8EJOnVmTOiDWYZ/uYzB4kvP+bqejYdVKzE5lAQ==, registry: https://registry.yarnpkg.com/, tarball: https://registry.npmjs.org/esbuild-android-64/-/esbuild-android-64-0.14.54.tgz}

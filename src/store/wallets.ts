@@ -1,33 +1,46 @@
-import db, { type Wallets } from '@/model/Database';
+import type { ID, Wallet } from '@/model/Database';
+import db from '@/model/Database';
 import { useObservable } from '@vueuse/rxjs';
 import { liveQuery } from 'dexie';
+import { from } from 'rxjs';
 
-export const useWallets = defineStore('wallets', () => {
-  const wallets = useObservable<Wallets[]>(
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    liveQuery(() => db.wallets.toArray())
+export const useWallet = defineStore('wallets', () => {
+  const wallet = useObservable(from(liveQuery(() => db.wallet.toArray())), {
+    initialValue: [] as Wallet[],
+  });
+  const walletNameMapping = computed<Record<number, string>>(() =>
+    Object.fromEntries(wallet.value.map(({ id, name }) => [id, name]))
   );
+
   const totalAssets = computed(() =>
-    wallets.value?.reduce((pre, { balance }) => pre + balance, 0)
+    wallet.value.reduce((pre, { balance }) => pre + balance, 0)
   );
   const totalLiabilities = computed(() =>
-    wallets.value
-      ?.filter((wallet) => wallet.balance < 0)
+    wallet.value
+      .filter(({ balance }) => balance < 0)
       .reduce((pre, cur) => pre + cur.balance, 0)
   );
 
-  const addWallets = (name: string, balance: number) => {
-    db.wallets.add({
-      name,
-      balance,
+  const createWallet = (data: Omit<Wallet, 'id' | 'orders'>) => {
+    db.wallet.add({
+      ...data,
       orders: [],
     });
   };
 
-  watchEffect(() => {
-    if (wallets.value?.length === 0) {
-      db.wallets.add({
+  const updateWallet = (id: ID, data: Partial<Omit<Wallet, 'id'>>) => {
+    db.wallet.update(id, data);
+  };
+
+  const deleteWallet = (id: ID) => {
+    db.wallet.delete(id);
+  };
+
+  onMounted(async () => {
+    const count = await db.wallet.count();
+
+    if (count === 0) {
+      db.wallet.add({
         name: '默认钱包',
         balance: 0,
         orders: [],
@@ -36,10 +49,13 @@ export const useWallets = defineStore('wallets', () => {
   });
 
   return {
-    wallets,
+    wallet,
+    walletNameMapping,
     totalAssets,
     totalLiabilities,
 
-    addWallets,
+    createWallet,
+    updateWallet,
+    deleteWallet,
   };
 });

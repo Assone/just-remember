@@ -1,12 +1,15 @@
 <script lang="ts" setup>
-const store = useWallets();
-const { wallets, totalAssets, totalLiabilities } = storeToRefs(store);
+const store = useWallet();
+const { wallet, totalAssets, totalLiabilities } = storeToRefs(store);
 
 const name = ref('');
 const balance = ref(0);
 
 const addWallets = () => {
-  store.addWallets(name.value, balance.value);
+  store.createWallet({
+    name: name.value,
+    balance: balance.value,
+  });
   name.value = '';
   balance.value = 0;
 };
@@ -33,7 +36,7 @@ const addWallets = () => {
     <div class="flex flex-col gap-4">
       <div
         class="flex justify-between items-center p-4 rounded bg-slate-500 text-white"
-        v-for="{ id, name, balance } in wallets"
+        v-for="{ id, name, balance } in wallet"
         :key="id"
       >
         <div>{{ name }}</div>

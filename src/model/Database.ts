@@ -1,8 +1,8 @@
 import Dexie, { type Table } from 'dexie';
 
-type ID = number;
+export type ID = number;
 
-interface Order {
+export interface Order {
   id?: ID;
   price: number;
   remark?: string;
@@ -13,6 +13,7 @@ interface Order {
   walletId: ID;
   categoryId: ID;
 }
+
 interface Subscribe {
   id?: ID;
 }
@@ -30,44 +31,31 @@ interface Budget {
 interface BudgetCategory {
   id?: ID;
 }
-interface Category {
+export interface Category {
   id?: ID;
   name: string;
   icon: string;
   orders: ID[];
 }
-interface Wallet {
+export interface Wallet {
   id?: ID;
   name: string;
   remark?: string;
   balance: number;
   orders: ID[];
 }
-interface BillDay {
+
+export interface Bill {
   id?: ID;
   date: number;
   orders: ID[];
 }
-interface BillWeek {
-  id?: ID;
-  date: number;
-  orders: ID[];
-}
-interface BillMonth {
-  id?: ID;
-  date: number;
-  orders: ID[];
-}
-interface BillQuarterly {
-  id?: ID;
-  date: number;
-  orders: ID[];
-}
-interface BillYear {
-  id?: ID;
-  date: number;
-  orders: ID[];
-}
+
+type BillDay = Bill;
+type BillWeek = Bill;
+type BillMonth = Bill;
+type BillQuarter = Bill;
+type BillYear = Bill;
 
 class DB extends Dexie {
   order!: Table<Order>;
@@ -84,7 +72,7 @@ class DB extends Dexie {
 
   billMonth!: Table<BillMonth>;
 
-  billQuarterly!: Table<BillQuarterly>;
+  billQuarter!: Table<BillQuarter>;
 
   billYear!: Table<BillYear>;
 
@@ -99,7 +87,7 @@ class DB extends Dexie {
       billDay: '++id, &date',
       billWeek: '++id, &date',
       billMonth: '++id, &date',
-      billQuarterly: '++id, &date',
+      billQuarter: '++id, &date',
       billYear: '++id, &date',
     });
   }

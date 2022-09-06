@@ -1,36 +1,46 @@
-import { liveQuery } from 'dexie';
-import { useObservable } from '@vueuse/rxjs';
+import type { Category, ID } from '@/model/Database';
 import db from '@/model/Database';
-import type { Category } from '@/model/Database';
+import { useObservable } from '@vueuse/rxjs';
+import { liveQuery } from 'dexie';
+import { from } from 'rxjs';
 
 export const useCategory = defineStore('category', () => {
-  const category = useObservable<Category[]>(
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    liveQuery(() => db.category.toArray())
+  const category = useObservable<Category[], []>(
+    from(liveQuery(() => db.category.toArray()))
+  );
+  const categoryNameMapping = computed<Record<number, string>>(() =>
+    Object.fromEntries(category.value.map(({ id, name }) => [id, name]))
   );
 
-  const addCategory = async (categoryName: string, icon: string) => {
-    await db.category.add({ name: categoryName, icon, orders: [] });
+  const createCategory = async (data: Omit<Category, 'id' | 'orders'>) => {
+    await db.category.add({ ...data, orders: [] });
+  };
+
+  const deleteCategory = (id: ID) => {
+    db.category.delete(id);
+  };
+
+  const updateCategory = (id: ID, data: Partial<Omit<Category, 'id'>>) => {
+    db.category.update(id, data);
   };
 
   watchEffect(() => {
     if (category.value?.length === 0) {
       db.category.bulkAdd([
-        { name: '餐饮', icon: '☕️', orders: [] },
-        { name: '交通', icon: '�‍♀️�', orders: [] },
-        { name: '通讯', icon: '��', orders: [] },
-        { name: '零食', icon: '〇', orders: [] },
-        { name: '蔬菜', icon: '��', orders: [] },
-        { name: '烟酒', icon: '��', orders: [] },
-        { name: '日用品', icon: '��', orders: [] },
-        { name: '礼品', icon: '��', orders: [] },
+        { name: '餐饮', icon: 'i-fluent-emoji-bento-box', orders: [] },
+        { name: '交通', icon: 'i-fluent-emoji-bullet-train', orders: [] },
+        { name: '零食', icon: 'i-fluent-emoji-bubble-tea', orders: [] },
+        { name: '蔬菜', icon: 'i-fluent-emoji-broccoli', orders: [] },
       ]);
     }
   });
 
   return {
     category,
-    addCategory,
+    createCategory,
+    deleteCategory,
+    updateCategory,
+
+    categoryNameMapping,
   };
 });
