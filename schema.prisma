@@ -1,0 +1,128 @@
+// 账单
+model Order {
+  id              Int            @id @default(autoincrement())
+  remark          String?
+  price           Float
+  date            DateTime
+  createAt        Int
+  updateAt        Int?
+  currency        Currency       @relation(fields: [currencyId], references: [id])
+  currencyId      Int
+  wallet          Wallet         @relation(fields: [walletId], references: [id])
+  walletId        Int
+  category        Category       @relation(fields: [categoryId], references: [id])
+  categoryId      Int
+  billDay         BillDay?       @relation(fields: [billDayId], references: [id])
+  billDayId       Int?
+  billWeek        BillWeek?      @relation(fields: [billWeekId], references: [id])
+  billWeekId      Int?
+  billMonth       BillMonth?     @relation(fields: [billMonthId], references: [id])
+  billMonthId     Int?
+  billQuarterly   BillQuarterly? @relation(fields: [billQuarterlyId], references: [id])
+  billQuarterlyId Int?
+  billYear        BillYear?      @relation(fields: [billYearId], references: [id])
+  billYearId      Int?
+}
+
+// 订阅
+model Subscribe {
+  id         Int      @id @default(autoincrement())
+  name       String
+  price      Float
+  startTime  DateTime
+  remark     String
+  repeat     String
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  currency   Currency @relation(fields: [currencyId], references: [id])
+  currencyId Int
+  wallet     Wallet?  @relation(fields: [walletId], references: [id])
+  walletId   Int?
+}
+
+// 分期
+model Staging {
+  id Int @id @default(autoincrement())
+}
+
+// 货币
+model Currency {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  symbol    String
+  Order     Order[]
+  Subscribe Subscribe[]
+}
+
+// 预算
+model Budget {
+  id       Int              @id @default(autoincrement())
+  date     DateTime
+  total    Int
+  category BudgetCategory[]
+}
+
+// 预算分类
+model BudgetCategory {
+  id         Int      @id @default(autoincrement())
+  total      Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+  Budget     Budget?  @relation(fields: [budgetId], references: [id])
+  budgetId   Int?
+}
+
+// 分类
+model Category {
+  id             Int              @id @default(autoincrement())
+  name           String           @unique
+  icon           String
+  orders         Order[]
+  BudgetCategory BudgetCategory[]
+  Subscribe      Subscribe[]
+}
+
+// 钱包
+model Wallet {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique
+  remark    String?
+  balance   Float
+  orders    Order[]
+  Subscribe Subscribe[]
+}
+
+// 日账单
+model BillDay {
+  id     Int      @id @default(autoincrement())
+  date   DateTime @unique
+  orders Order[]
+}
+
+// 周账单
+model BillWeek {
+  id     Int      @id @default(autoincrement())
+  date   DateTime @unique
+  orders Order[]
+}
+
+// 月度账单
+model BillMonth {
+  id     Int      @id @default(autoincrement())
+  date   DateTime @unique
+  orders Order[]
+}
+
+// 季度账单
+model BillQuarterly {
+  id     Int      @id @default(autoincrement())
+  date   DateTime @unique
+  orders Order[]
+}
+
+// 年账单
+model BillYear {
+  id     Int      @id @default(autoincrement())
+  date   DateTime @unique
+  orders Order[]
+}

@@ -11,6 +11,8 @@ export const useOrder = defineStore('order', () => {
     await db.order.add({ description, category: 1, createAt: Date.now() });
   };
 
+  console.log(db);
+
   return {
     list,
     add,

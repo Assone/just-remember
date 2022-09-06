@@ -213,7 +213,6 @@
     "usePreferredLanguages": true,
     "usePreferredReducedMotion": true,
     "useRafFn": true,
-    "useRecord": true,
     "useRefHistory": true,
     "useResizeObserver": true,
     "useRoute": true,
