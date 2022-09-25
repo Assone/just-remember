@@ -5,7 +5,6 @@ const showTabbar = computed(
   () =>
     isString(route.name) && ['Home', 'Trends', 'Settings'].includes(route.name)
 );
-const showAddOrderView = ref(false);
 
 watchEffect(() => {
   if (tabActive.value === undefined && route.name !== undefined) {
@@ -17,10 +16,7 @@ watchEffect(() => {
 <template>
   <div class="min-h-screen">
     <div class="p-4">
-      <AppIcon icon="fluent-emoji:plus" @click="showAddOrderView = true" />
-      <AppPopup v-model:show="showAddOrderView">
-        <div>12312</div>
-      </AppPopup>
+      <AddOrderButton />
       <RouterView />
     </div>
     <AppTabber v-show="showTabbar" v-model="tabActive" router>

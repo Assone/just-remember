@@ -34,6 +34,22 @@ export const useCategory = defineStore('category', () => {
         { name: '交通', icon: 'fluent-emoji:bullet-train', orders: [] },
         { name: '零食', icon: 'fluent-emoji:bubble-tea', orders: [] },
         { name: '蔬菜', icon: 'fluent-emoji:broccoli', orders: [] },
+        { name: '礼物', icon: 'fluent-emoji:wrapped-gift', orders: [] },
+        { name: '日用品', icon: 'fluent-emoji:roll-of-paper', orders: [] },
+        { name: '住房', icon: 'fluent-emoji:house', orders: [] },
+        { name: '宠物', icon: 'fluent-emoji:teddy-bear', orders: [] },
+        { name: '医疗', icon: 'fluent-emoji:hospital', orders: [] },
+        { name: '快递', icon: 'fluent-emoji:package', orders: [] },
+        { name: '购物', icon: 'fluent-emoji:coin', orders: [] },
+        { name: 'App订阅', icon: 'fluent-emoji:mobile-phone', orders: [] },
+        { name: '游戏', icon: 'fluent-emoji:joystick', orders: [] },
+        { name: '水果', icon: 'fluent-emoji:kiwi-fruit', orders: [] },
+        { name: '娱乐', icon: 'fluent-emoji:party-popper', orders: [] },
+        { name: '书籍', icon: 'fluent-emoji:books', orders: [] },
+        { name: '酒店', icon: 'fluent-emoji:department-store', orders: [] },
+        { name: '生活', icon: 'fluent-emoji:glowing-star', orders: [] },
+        { name: '服饰', icon: 'fluent-emoji:jeans', orders: [] },
+        { name: '其他', icon: '', orders: [] },
       ]);
     }
   });
