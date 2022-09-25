@@ -8,8 +8,11 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AppIcon: typeof import('./../components/common/AppIcon.vue')['default']
+    AppOverlay: typeof import('./../components/common/AppOverlay.vue')['default']
+    AppPopup: typeof import('./../components/common/AppPopup.vue')['default']
     AppTabbarItem: typeof import('./../components/common/AppTabbarItem.tsx')['default']
     AppTabber: typeof import('./../components/common/AppTabber.tsx')['default']
+    Card: typeof import('./../components/Card.vue')['default']
     ICarbonAccessibility: typeof import('~icons/carbon/accessibility')['default']
     IMdiAccountBox: typeof import('~icons/mdi/account-box')['default']
     OrderList: typeof import('./../components/OrderList.vue')['default']

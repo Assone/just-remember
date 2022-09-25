@@ -41,7 +41,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: ['./src/store/**/*.ts'],
+      files: ['./src/store/**/*.ts', './src/hooks/**/*.ts'],
       rules: {
         'import/prefer-default-export': 'off',
       },

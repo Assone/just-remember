@@ -142,6 +142,7 @@
     "useCssVar": true,
     "useCssVars": true,
     "useCurrentElement": true,
+    "useCurrentOrdersByMonth": true,
     "useCycleList": true,
     "useDark": true,
     "useDateFormat": true,

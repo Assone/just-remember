@@ -11,9 +11,11 @@ import {
 import { liveQuery, type IndexableType, type Table } from 'dexie';
 import { from } from 'rxjs';
 
+type GetStartDate = (date: Date | number) => Date;
+
 const useBillMethod = (
   table: Table<Bill, IndexableType>,
-  getStartDate: (date: Date | number) => Date
+  getStartDate: GetStartDate
 ) => {
   const create = (data: Omit<Bill, 'id'>) => table.add(data);
   const del = (id: ID) => table.delete(id);
@@ -66,47 +68,53 @@ const useBillMethod = (
 };
 
 export const useBill = defineStore('bill', () => {
-  const day = useObservable(from(liveQuery(() => db.billDay.toArray())), {
-    initialValue: [] as Bill[],
-  });
-  const week = useObservable(from(liveQuery(() => db.billWeek.toArray())), {
-    initialValue: [] as Bill[],
-  });
-  const month = useObservable(from(liveQuery(() => db.billMonth.toArray())), {
-    initialValue: [] as Bill[],
-  });
-  const quarter = useObservable(
-    from(liveQuery(() => db.billQuarter.toArray())),
-    {
+  const bill = [
+    db.billDay,
+    db.billWeek,
+    db.billMonth,
+    db.billQuarter,
+    db.billYear,
+  ].map((billDB) =>
+    useObservable(from(liveQuery(() => billDB.toArray())), {
       initialValue: [] as Bill[],
-    }
+    })
   );
-  const year = useObservable(from(liveQuery(() => db.billYear.toArray())), {
-    initialValue: [] as Bill[],
-  });
+  const [day, week, month, quarter, year] = bill;
 
-  const {
-    addOrderToBill: addOrderToBillDay,
-    delOrderToBill: delOrderToBillDay,
-  } = useBillMethod(db.billDay, startOfDay);
-  const {
-    addOrderToBill: addOrderToBillWeek,
-    delOrderToBill: delOrderToBillWeek,
-  } = useBillMethod(db.billWeek, startOfWeek);
-  const {
-    addOrderToBill: addOrderToBillMonth,
-    delOrderToBill: delOrderToBillMonth,
-  } = useBillMethod(db.billMonth, startOfMonth);
-  const {
-    addOrderToBill: addOrderToBillQuarter,
-    delOrderToBill: delOrderToBillQuarter,
-  } = useBillMethod(db.billQuarter, startOfQuarter);
-  const {
-    addOrderToBill: addOrderToBillYear,
-    delOrderToBill: delOrderToBillYear,
-  } = useBillMethod(db.billYear, startOfYear);
+  const [
+    currentDayBill,
+    currentWeekBill,
+    currentMonthBill,
+    currentQuarterBill,
+    currentYearBill,
+  ] = [startOfDay, startOfWeek, startOfMonth, startOfQuarter, startOfYear].map(
+    (fn, index) =>
+      computed(() =>
+        bill[index].value.find((b) => b.date === fn(Date.now()).getTime())
+      )
+  );
 
-  const addOrderToBill = async (orderId: ID, date: number) => {
+  const [
+    { addOrderToBill: addOrderToBillDay, delOrderToBill: delOrderToBillDay },
+    { addOrderToBill: addOrderToBillWeek, delOrderToBill: delOrderToBillWeek },
+    {
+      addOrderToBill: addOrderToBillMonth,
+      delOrderToBill: delOrderToBillMonth,
+    },
+    {
+      addOrderToBill: addOrderToBillQuarter,
+      delOrderToBill: delOrderToBillQuarter,
+    },
+    { addOrderToBill: addOrderToBillYear, delOrderToBill: delOrderToBillYear },
+  ] = Object.entries({
+    billDay: startOfDay,
+    billWeek: startOfWeek,
+    billMonth: startOfMonth,
+    billQuarter: startOfQuarter,
+    billYear: startOfYear,
+  }).map(([name, fn]) => useBillMethod(db[name as 'billDay'], fn));
+
+  const addOrderToBill = async (orderId: ID, date: number = Date.now()) => {
     await db.transaction(
       'rw',
       [db.billDay, db.billWeek, db.billMonth, db.billQuarter, db.billYear],
@@ -144,6 +152,11 @@ export const useBill = defineStore('bill', () => {
     month,
     quarter,
     year,
+    currentDayBill,
+    currentWeekBill,
+    currentMonthBill,
+    currentQuarterBill,
+    currentYearBill,
     addOrderToBill,
     delOrderToBill,
   };

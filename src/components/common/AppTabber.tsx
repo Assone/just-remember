@@ -76,7 +76,7 @@ export default defineComponent({
         class={[
           fixed.value ? 'fixed bottom-0 left-0' : '',
           border.value ? 'border' : '',
-          'flex w-full h-14',
+          'flex w-full h-14 bg-white/75 backdrop-blur',
         ]}
       >
         {renderSlot()}

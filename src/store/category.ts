@@ -11,6 +11,9 @@ export const useCategory = defineStore('category', () => {
   const categoryNameMapping = computed<Record<number, string>>(() =>
     Object.fromEntries(category.value.map(({ id, name }) => [id, name]))
   );
+  const categoryIconMapping = computed<Record<number, string>>(() =>
+    Object.fromEntries(category.value.map(({ id, icon }) => [id, icon]))
+  );
 
   const createCategory = async (data: Omit<Category, 'id' | 'orders'>) => {
     await db.category.add({ ...data, orders: [] });
@@ -27,10 +30,10 @@ export const useCategory = defineStore('category', () => {
   watchEffect(() => {
     if (category.value?.length === 0) {
       db.category.bulkAdd([
-        { name: '餐饮', icon: 'i-fluent-emoji-bento-box', orders: [] },
-        { name: '交通', icon: 'i-fluent-emoji-bullet-train', orders: [] },
-        { name: '零食', icon: 'i-fluent-emoji-bubble-tea', orders: [] },
-        { name: '蔬菜', icon: 'i-fluent-emoji-broccoli', orders: [] },
+        { name: '餐饮', icon: 'fluent-emoji:bento-box', orders: [] },
+        { name: '交通', icon: 'fluent-emoji:bullet-train', orders: [] },
+        { name: '零食', icon: 'fluent-emoji:bubble-tea', orders: [] },
+        { name: '蔬菜', icon: 'fluent-emoji:broccoli', orders: [] },
       ]);
     }
   });
@@ -42,5 +45,6 @@ export const useCategory = defineStore('category', () => {
     updateCategory,
 
     categoryNameMapping,
+    categoryIconMapping,
   };
 });

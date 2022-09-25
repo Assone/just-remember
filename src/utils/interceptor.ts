@@ -13,19 +13,19 @@ export const callInterceptor = (
   { args = [], done, canceled }: InterceptorOptions
 ) => {
   if (interceptor) {
-    const value = interceptor(...args);
+    const returnValue = interceptor(...args);
 
-    if (isPromise(value)) {
-      value
-        .then((v) => {
-          if (v) {
+    if (isPromise(returnValue)) {
+      returnValue
+        .then((value) => {
+          if (value) {
             done();
           } else if (canceled) {
             canceled();
           }
         })
         .catch(noop);
-    } else if (value) {
+    } else if (returnValue) {
       done();
     } else if (canceled) {
       canceled();

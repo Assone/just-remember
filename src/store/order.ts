@@ -1,6 +1,7 @@
 import type { ID, Order } from '@/model/Database';
 import db from '@/model/Database';
 import { useObservable } from '@vueuse/rxjs';
+import { format } from 'date-fns';
 import { liveQuery } from 'dexie';
 import { from, map } from 'rxjs';
 
@@ -8,7 +9,7 @@ export const useOrder = defineStore('order', () => {
   const category = useCategory();
   const wallet = useWallet();
   const bill = useBill();
-  const { categoryNameMapping } = storeToRefs(category);
+  const { categoryNameMapping, categoryIconMapping } = storeToRefs(category);
   const { walletNameMapping } = storeToRefs(wallet);
 
   const order = useObservable(
@@ -17,7 +18,9 @@ export const useOrder = defineStore('order', () => {
         list.map((data) => ({
           ...data,
           category: categoryNameMapping.value[data.categoryId],
+          categoryIcon: categoryIconMapping.value[data.categoryId],
           wallet: walletNameMapping.value[data.walletId],
+          time: format(data.date, 'hh:mm'),
         }))
       )
     ),

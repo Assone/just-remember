@@ -143,6 +143,7 @@ declare global {
   const useCssVar: typeof import('@vueuse/core')['useCssVar']
   const useCssVars: typeof import('vue')['useCssVars']
   const useCurrentElement: typeof import('@vueuse/core')['useCurrentElement']
+  const useCurrentOrdersByMonth: typeof import('../hooks/currentOrdersByMonth')['useCurrentOrdersByMonth']
   const useCycleList: typeof import('@vueuse/core')['useCycleList']
   const useDark: typeof import('@vueuse/core')['useDark']
   const useDateFormat: typeof import('@vueuse/core')['useDateFormat']
